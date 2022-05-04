@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 import sys
+import pathlib
 from setuptools import setup
+
+# The directory containing this file
+HERE = pathlib.Path(__file__).parent
+# The text of the README file
+README = (HERE / "README.md").read_text()
 
 setup(	name='advanced-scrapy-proxies',
 		version='0.1.1',
