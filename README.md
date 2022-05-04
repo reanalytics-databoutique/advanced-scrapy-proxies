@@ -36,7 +36,7 @@ As every scrapy project, you can override the settings in settings.py when calli
 ```bash
 ##PROXY_MODE=-1, the spider does not use the proxy list provided.
 scrapy crawl myspider -s PROXY_MODE=-1 -s PROXY_LIST='myproxylist.txt'
-##PROXY_MODE=0, the spider use the proxy list provided, choosing for every request a different proxy. File is read at every request made, so can be updated during the execution.
+##PROXY_MODE=0, the spider use the proxy list provided, choosing for every request a different proxy. 
 scrapy crawl myspider -s PROXY_MODE=0 -s PROXY_LIST='myproxylist.txt'
 ##PROXY_MODE=1, the spider use the proxy list provided, choosing only one proxy for the whole execution.
 scrapy crawl myspider -s PROXY_MODE=1 -s PROXY_LIST='myproxylist.txt'
@@ -53,6 +53,7 @@ scrapy crawl myspider -s PROXY_MODE=3 -s PROXY_LIST='http://myproxy.com:80'
 ### New features
 - Adding a cooldown list: instead of deleting proxy after a failed attempt to get data, use a cooldown list where they are not used for a limited time in the scraper but ready to be reused when the cooldown finishes.
 - Adding support for reading urls of the lists behind user and password
+- Updating proxy list at every request even for PROXY_MODE=0
 
 
 ## Contributing

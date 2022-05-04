@@ -128,6 +128,7 @@ class RandomProxy(object):
 		proxy_dict[url] = user_pwd
 		
 	def update_remote_list(self):
+		self.proxies = {}
 		r = requests.get(self.proxy_list)
 		for line in r.text.splitlines():
 			self.format_proxy(line.strip(), self.proxies)
