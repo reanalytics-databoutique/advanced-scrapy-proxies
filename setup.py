@@ -9,7 +9,7 @@ HERE = pathlib.Path(__file__).parent
 README = (HERE / "README.md").read_text()
 
 setup(	name='advanced-scrapy-proxies',
-		version='0.1.1',
+		version='0.1.2',
 		description='Advanced Scrapy Proxies: random proxy middleware for Scrapy with advanced features',
 		long_description=README,
 		long_description_content_type="text/markdown",
