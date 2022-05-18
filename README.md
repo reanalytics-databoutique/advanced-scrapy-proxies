@@ -18,7 +18,7 @@ pip install advanced-scrapy-proxies
 ```python
 DOWNLOADER_MIDDLEWARES = {
     'scrapy.downloadermiddlewares.retry.RetryMiddleware': 90,
-    'advanced_scrapy_proxies.RandomProxy': 100,
+    'advanced-scrapy-proxies.RandomProxy': 100,
     'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110
 }
 
