@@ -38,10 +38,12 @@ class Mode:
 
 class RandomProxy(object):
 	def __init__(self, settings):
-		self.mode = settings.get('PROXY_MODE')
+		self.mode = int(settings.get('PROXY_MODE'))
 		self.proxy_list = settings.get('PROXY_LIST')
+		self.REMOTE_PROXY_USER = settings.get('REMOTE_PROXY_USER')
+		self.REMOTE_PROXY_PWD = settings.get('REMOTE_PROXY_PWD')
 		self.chosen_proxy = ''
-
+		print(self.mode)
 		if self.mode == Mode.RANDOMIZE_PROXY_EVERY_REQUESTS or self.mode == Mode.RANDOMIZE_PROXY_ONCE or self.mode == Mode.REMOTE_PROXY_LIST:
 			if self.proxy_list is None:
 				raise KeyError('PROXY_LIST setting is missing')
@@ -52,7 +54,7 @@ class RandomProxy(object):
 				try:
 					for line in fin.readlines():
 						self.format_proxy(line.strip(), self.proxies)
-						print(self.proxies)
+						#print(self.proxies)
 				finally:
 					fin.close()
 			elif self.mode == Mode.REMOTE_PROXY_LIST:
@@ -75,7 +77,6 @@ class RandomProxy(object):
 		return cls(crawler.settings)
 
 	def process_request(self, request, spider):
-		# Don't overwrite with a random one (server-side state for IP)
 		if self.mode == Mode.NO_PROXY:
 			proxy_address = ''
 		else:
@@ -94,7 +95,6 @@ class RandomProxy(object):
 				proxy_address = self.chosen_proxy
 		if proxy_address:
 			proxy_user_pass = self.proxies[proxy_address]
-
 			if proxy_user_pass:
 				request.meta['proxy'] = proxy_address
 				basic_auth = 'Basic ' + base64.b64encode(proxy_user_pass.encode()).decode()
@@ -121,7 +121,10 @@ class RandomProxy(object):
 	def format_proxy(self, proxy_line, proxy_dict):
 		if '@' in proxy_line:
 			url=proxy_line.split('://')[0]+'://'+proxy_line.split('@')[1]
-			user_pwd=proxy_line.split('://')[1].split('@')[0]
+			if '$USER' in proxy_line:
+				user_pwd= self.REMOTE_PROXY_USER+':'+self.REMOTE_PROXY_PWD
+			else:
+				user_pwd=proxy_line.split('://')[1].split('@')[0]
 		else:
 			url=proxy_line
 			user_pwd = ''
